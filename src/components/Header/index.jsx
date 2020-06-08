@@ -7,6 +7,7 @@ import './styles.css';
 const Header = () => {
   return (
       <header className="header">
+
         <Link to="/">
           <h1 className="header__logo">Fashionista</h1>
         </Link>
@@ -21,6 +22,7 @@ const Header = () => {
             <span className="header__icon__cart-count">0</span>
           </button>
         </div>
+
       </header>
   );
 }

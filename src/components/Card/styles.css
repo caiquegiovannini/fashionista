@@ -1,0 +1,48 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem 0.25rem;
+  position: relative;
+}
+
+.card__image img {
+  width: 100%;
+}
+
+.card__discount {
+  position: absolute;
+  top: 16px;
+  right: 4px;
+  background-color: #000;
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 0.1rem 0.2rem;
+}
+
+.card__info {
+  text-align: center;
+}
+
+.card__name {
+  font-size: 0.9rem;
+  line-height: 1.6rem;
+  text-transform: uppercase;
+}
+
+.card__prices {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card__old-price {
+  color: #a7a7a7;
+  text-decoration: line-through;
+  font-size: 0.8rem;
+  margin-right: 10px;
+}
+
+.card__price {
+  font-size: 1rem;
+}

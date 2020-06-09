@@ -1,18 +1,18 @@
 import React from 'react';
 
-import Product from '../Product';
+import Card from '../Card';
 
 import './styles.css';
 
 const Catalog = () => {
   return (
-    <section className="catalog container">
-      <Product />
-      <Product />
-      <Product />
-      <Product />
+    <main className="catalog container">
+      <Card />
+      <Card />
+      <Card />
+      <Card />
 
-    </section>
+    </main>
   );
 }
 

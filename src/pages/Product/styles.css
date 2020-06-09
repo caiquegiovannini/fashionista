@@ -71,6 +71,8 @@
 }
 
 .product__button {
+  position: fixed;
+  bottom: 20px;
   width: 100%;
   margin-top: 20px;
   height: 40px;
@@ -105,5 +107,9 @@
 
   .product__info {
     margin-left: 20px;
+  }
+
+  .product__button {
+    position: initial;
   }
 }

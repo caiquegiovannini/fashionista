@@ -86,3 +86,24 @@
 .product__button:hover {
   background-color: #000;
 }
+
+@media (min-width: 1279px) {
+  .product {
+    display: flex;
+  }
+
+  .product__image {
+    width: 50%;
+  }
+
+  .product__discount {
+    top: 0;
+    right: 0;
+    bottom: initial;
+    left: initial;
+  }
+
+  .product__info {
+    margin-left: 20px;
+  }
+}

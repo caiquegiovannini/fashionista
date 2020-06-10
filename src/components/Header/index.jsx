@@ -3,18 +3,28 @@ import { Link } from 'react-router-dom';
 import { FiSearch, FiShoppingBag } from 'react-icons/fi';
 
 import Cart from '../Cart';
+import Search from '../Search';
 
 import './styles.css';
 
 const Header = () => {
   const [cartActive, setCartActive] = useState(false);
+  const [searchActive, setSearchActive] = useState(false);
 
   function handleClickCart() {
     setCartActive(true);
   }
 
+  function handleClickSearch() {
+    setSearchActive(true);
+  }
+
   function handleCloseCart() {
     setCartActive(false);
+  }
+
+  function handleCloseSearch() {
+    setSearchActive(false);
   }
 
   return (
@@ -27,7 +37,7 @@ const Header = () => {
             </Link>
 
             <div>
-              <button className="header__button">
+              <button className="header__button" onClick={handleClickSearch}>
                 <FiSearch className="header__button-icon" />
               </button>
 
@@ -41,6 +51,7 @@ const Header = () => {
         </header>
 
         {cartActive && <Cart close={handleCloseCart}/>}
+        {searchActive && <Search close={handleCloseSearch} />}
       </>
   );
 }

@@ -22,6 +22,11 @@
   color: #fff;
 }
 
+.product__info {
+  display: flex;
+  flex-direction: column;
+}
+
 .product__name {
   text-transform: uppercase;
   line-height: 2.2rem;
@@ -74,6 +79,7 @@
   position: fixed;
   bottom: 20px;
   width: 100%;
+  max-width: 90%;
   margin-top: 20px;
   height: 40px;
   background-color: #111;
@@ -82,6 +88,7 @@
   font-weight: bold;
   border-radius: 6px;
   box-shadow: 0 0.2rem 2rem 0 rgba(0,0,0,.5);
+  align-self: center;
   transition: 300ms;
 }
 
@@ -111,5 +118,6 @@
 
   .product__button {
     position: initial;
+    max-width: initial;
   }
 }

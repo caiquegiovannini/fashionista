@@ -28,11 +28,13 @@
 
 .item__center {
   margin-left: 10px;
+  max-width: 49%;
 }
 
 .item__name {
   font-size: 0.85rem;
   text-transform: uppercase;
+
 }
 
 .item__size,

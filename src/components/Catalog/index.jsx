@@ -4,19 +4,12 @@ import Card from '../Card';
 
 import './styles.css';
 
-const Catalog = () => {
+const Catalog = ({ products }) => {
   return (
     <main className="catalog container">
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-
+      {products &&
+        products.map(product => (<Card key={product.sizes[0].sku} product={product} />))
+      }
     </main>
   );
 }

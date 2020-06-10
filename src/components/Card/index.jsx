@@ -1,22 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { formatNameToParamUrl } from '../../services/utils';
 
 import './styles.css';
 
-const Card = () => {
+const Card = ({ product }) => {
+  const param = formatNameToParamUrl(product.name);
+
   return (
     <article className="card">
-      <Link to={`/products`}>
+      <Link to={`/products/${param}`}>
         <figure className="card__image">
-          <img src="https://viniciusvinna.netlify.app/assets/api-fashionista/20002605_615_catalog_1.jpg" alt=""/>
-          <span className="card__discount">-54%</span>
+          <img 
+            src={product.image
+              ? product.image
+              : 'https://via.placeholder.com/470x594/FFFFFF/?text=Imagem+Indisponível'
+            } 
+            alt={product.name}
+          />
+          {product.discount_percentage &&
+            <span className="card__discount">
+              -
+              {product.discount_percentage}
+            </span>
+          }
         </figure>
 
         <div className="card__info">
-          <h2 className="card__name">Vestido Transpasse Bow</h2>
+          <h2 className="card__name">{product.name}</h2>
           <div className="card__prices">
-            <p className="card__old-price">R$ 129,90</p>            
-            <p className="card__price">R$ 59,90</p>
+            {product.actual_price !== product.regular_price &&
+              <p className="card__old-price">{product.regular_price}</p> 
+            }           
+            <p className="card__price">{product.actual_price}</p>
           </div>
         </div>
       </Link>

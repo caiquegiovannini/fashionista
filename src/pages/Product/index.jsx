@@ -1,32 +1,84 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { formatParamUrlToName } from '../../services/utils';
+import { baseURL } from '../../services/api';
 
 import './styles.css';
 
-const Product = () => {
-  const sizes = ['P', 'M', 'G'];
+const Product = (props) => {
+  const [product, setProduct] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
+
+  useEffect(() => {
+    const param = props.match.params.name;
+
+    fetch(baseURL)
+      .then(res => res.json())
+      .then(data => {
+        const selectedProduct = data.find(item => 
+          item.name === formatParamUrlToName(param)
+        );
+        
+        setProduct(selectedProduct);
+      })
+  }, []);
+
+  const sizes = product.sizes && product.sizes.map(size => {
+        if (size.available) {
+          return (
+            <div 
+              key={size.sku}
+              className={`product__sizes__selection ${selectedSize === size.sku ? 'product__sizes__selection--active' : ''}`} 
+              onClick={() => handleSelectSize(size.sku)}
+            >
+              {size.size}
+            </div>
+          );
+        }
+      })
+    
+  
+
+  const handleSelectSize = (sku) => {  
+    if (selectedSize !== sku) {
+      setSelectedSize(sku);
+    }
+
+    return;
+  }
 
   return (
     <main className="product">
       
       <figure className="product__image">
-        <img src="https://viniciusvinna.netlify.app/assets/api-fashionista/20002605_615_catalog_1.jpg" alt=""/>
-        <span className="product__discount">-54%</span>
+        <img 
+          src={product.image
+            ? product.image
+            : 'https://via.placeholder.com/470x594/FFFFFF/?text=Imagem+Indisponível'
+          } 
+          alt={product.name}
+        />
+        {product.discount_percentage &&
+          <span className="product__discount">
+            -
+            {product.discount_percentage}
+          </span>
+        }
       </figure>
 
       <div className="product__info">
-        <h2 className="product__name">Vestido Curto Festival</h2>
+        <h2 className="product__name">{product.name}</h2>
         <div className="product__prices">
-          <p className="product__old-price">R$ 129,90</p>
-          <p className="product__price">R$ 59,90</p>
-          <p className="product__payment">em até 1x R$ 59,90</p>
+          {product.actual_price !== product.regular_price &&
+            <p className="product__old-price">{product.regular_price}</p> 
+          } 
+          <p className="product__price">{product.regular_price}</p>
+          <p className="product__payment">em até {product.installments}</p>
         </div>
 
         <div className="product__size">
           <p className="product__size__title">Escolha o tamanho</p>
           <div className="product__sizes">
-            {sizes.map(size => (
-              <div className={`product__sizes__selection ${size === 'M' ? 'product__sizes__selection--active' : ''}`}>{size}</div>
-            ))}
+            {sizes}
           </div>
         </div>
 

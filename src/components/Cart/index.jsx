@@ -5,7 +5,7 @@ import Item from '../Item';
 
 import './styles.css';
 
-const Cart = ( {close} ) => {
+const Cart = ( { close } ) => {
   return (
     <section className="cart">
       <header className="cart__header">

@@ -7,8 +7,8 @@ import Item from '../Item';
 import './styles.css';
 
 const Cart = ( { close } ) => {
-  const { items, quantity } = useSelector(state => state.cart);
-  console.log(items)
+  const { items, itemsInCart, subtotal } = useSelector(state => state.cart);
+
   return (
     <section className="cart">
       <header className="cart__header">
@@ -18,15 +18,15 @@ const Cart = ( { close } ) => {
         <p className="cart__qunatity">
           Sacola (
           <span className="quantity__number">
-            {quantity}
+            {itemsInCart}
           </span>
           )
         </p>
       </header>
     
       <main className="cart__content">
-        {items.length > 0
-          ? items.map(item => <Item />)
+        {itemsInCart > 0 
+          ? items.map(item => <Item key={item.id} item={item} />)
           : <p className="no-item">Sua sacola está vazia :/</p>
         }
       </main>
@@ -34,7 +34,8 @@ const Cart = ( { close } ) => {
       <div className="cart__footer">
         <p className="cart__subtotal">
           Subtotal - R$
-          <span className="cart__subtotal__value"> 329,80
+          <span className="cart__subtotal__value"> 
+            {subtotal}
           </span>
         </p>
       </div>

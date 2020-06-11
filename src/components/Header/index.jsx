@@ -9,7 +9,7 @@ import Search from '../Search';
 import './styles.css';
 
 const Header = () => {
-  const cart = useSelector(state => state.cart);
+  const { items, itemsInCart } = useSelector(state => state.cart);
 
   const [cartActive, setCartActive] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
@@ -46,7 +46,7 @@ const Header = () => {
 
               <button className="header__button" onClick={handleClickCart}>
                 <FiShoppingBag className="header__button-icon" />
-                <span className="header__icon__cart-count">{cart.quantity}</span>
+                <span className="header__icon__cart-count">{itemsInCart}</span>
               </button>
             </div>
 

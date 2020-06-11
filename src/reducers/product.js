@@ -1,4 +1,4 @@
-import { GET_PRODUCT, SET_SELECTED_SIZE } from '../actionTypes/product';
+import { GET_PRODUCT, SET_SELECTED_SIZE, RESET_SELECTED_SIZE } from '../actionTypes/product';
 
 const productsInitialState = {
   product: {
@@ -9,9 +9,8 @@ const productsInitialState = {
     actual_price: '',
     installments: '',
     sizes: [],
-    loaded: false,
   },
-  selectedSize: '',
+  selectedSize: {},
 }
 
 const productReducer = (state = productsInitialState, action) => {
@@ -29,13 +28,28 @@ const productReducer = (state = productsInitialState, action) => {
           actual_price: payload.actual_price,
           installments: payload.installments,
           sizes: payload.sizes,
+          quantity: 1,
         }
       };
 
-    case SET_SELECTED_SIZE:
+    case SET_SELECTED_SIZE: {
+      const sizeInfo = {
+        size: payload.size,
+        sku: payload.sku,
+      }
+
       return {
         ...state,
-        selectedSize: payload,
+        selectedSize: {
+          ...sizeInfo,
+        },
+      };
+    }
+
+    case RESET_SELECTED_SIZE:
+      return {
+        ...state,
+        selectedSize: {},
       }
 
     default:

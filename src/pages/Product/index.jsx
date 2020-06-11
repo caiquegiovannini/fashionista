@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { baseURL } from '../../services/api';
 import { formatParamUrlToName } from '../../services/utils';
-import { getProduct, setSelectedSize } from '../../actions/product';
+import { getProduct, setSelectedSize, resetSelectedSize } from '../../actions/product';
+import { increaseItem } from '../../actions/cart';
 
 import './styles.css';
 import { addItem } from '../../actions/cart';
@@ -10,6 +11,7 @@ import { addItem } from '../../actions/cart';
 const Product = (props) => {
   const dispatch = useDispatch();
   const { product, selectedSize } = useSelector(state => state.product);
+  const { items } = useSelector(state => state.cart);
 
   useEffect(() => {
     const param = props.match.params.name;
@@ -22,16 +24,17 @@ const Product = (props) => {
         );
 
         dispatch(getProduct(selectedProduct));
+        dispatch(resetSelectedSize());
       })
   }, []);
 
-  const sizes = product.sizes && product.sizes.map(size => {
+  const sizesAvailable = product.sizes && product.sizes.map(size => {
         if (size.available) {
           return (
             <div 
               key={size.sku}
-              className={`product__sizes__selection ${selectedSize === size.sku ? 'product__sizes__selection--active' : ''}`} 
-              onClick={() => handleSelectSize(size.sku)}
+              className={`product__sizes__selection ${selectedSize.sku === size.sku ? 'product__sizes__selection--active' : ''}`} 
+              onClick={() => {handleSelectSize(size); console.log(items)}}
             >
               {size.size}
             </div>
@@ -39,23 +42,35 @@ const Product = (props) => {
         }
       })
 
-  const handleSelectSize = (sku) => {  
-    if (selectedSize !== sku) {
-      dispatch(setSelectedSize(sku));
+  const handleSelectSize = (size) => {  
+    if (selectedSize.sku !== size.sku) {
+      dispatch(setSelectedSize(size));
     }
 
     return;
   }
 
   const handleAddToCart = (product, size) => {
-    if (!size) {
+    const newProduct = product;
+
+    if (items[0] !== undefined) {
+      const repeatedItem = items.find(item => item.id === size.sku);
+      
+      if (repeatedItem) {
+        dispatch(increaseItem(size.sku))
+        return;
+      }
+    }
+
+    if (!size.sku) {
       alert('Selecione um tamanho')
       return;
     }
 
     const productInfo = {
-      ...product, 
-      size,
+      ...newProduct, 
+      size: size.size,
+      id: size.sku,
     };
 
     dispatch(addItem(productInfo));
@@ -93,7 +108,7 @@ const Product = (props) => {
         <div className="product__size">
           <p className="product__size__title">Escolha o tamanho</p>
           <div className="product__sizes">
-            {sizes}
+            {sizesAvailable}
           </div>
         </div>
 

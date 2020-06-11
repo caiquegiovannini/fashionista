@@ -28,7 +28,7 @@ const Search = ( {close} ) => {
       </header>
     
       <section className="search__results">
-        {/* <p className="search__no-item">Nenhum item econtrado :/</p> */}
+        {/* <p className="no-item">Nenhum item econtrado :/</p> */}
         <ResultItem/>
         <ResultItem />
         <ResultItem />

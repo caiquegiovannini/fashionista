@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { formatParamUrlToName } from '../../services/utils';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { baseURL } from '../../services/api';
+import { formatParamUrlToName } from '../../services/utils';
+import { getProduct, setSelectedSize } from '../../actions/product';
 
 import './styles.css';
+import { addItem } from '../../actions/cart';
 
 const Product = (props) => {
-  const [product, setProduct] = useState('');
-  const [selectedSize, setSelectedSize] = useState('');
+  const dispatch = useDispatch();
+  const { product, selectedSize } = useSelector(state => state.product);
 
   useEffect(() => {
     const param = props.match.params.name;
@@ -17,8 +20,8 @@ const Product = (props) => {
         const selectedProduct = data.find(item => 
           item.name === formatParamUrlToName(param)
         );
-        
-        setProduct(selectedProduct);
+
+        dispatch(getProduct(selectedProduct));
       })
   }, []);
 
@@ -35,20 +38,32 @@ const Product = (props) => {
           );
         }
       })
-    
-  
 
   const handleSelectSize = (sku) => {  
     if (selectedSize !== sku) {
-      setSelectedSize(sku);
+      dispatch(setSelectedSize(sku));
     }
 
     return;
   }
 
+  const handleAddToCart = (product, size) => {
+    if (!size) {
+      alert('Selecione um tamanho')
+      return;
+    }
+
+    const productInfo = {
+      ...product, 
+      size,
+    };
+
+    dispatch(addItem(productInfo));
+  }
+
   return (
     <main className="product">
-      
+
       <figure className="product__image">
         <img 
           src={product.image
@@ -71,7 +86,7 @@ const Product = (props) => {
           {product.actual_price !== product.regular_price &&
             <p className="product__old-price">{product.regular_price}</p> 
           } 
-          <p className="product__price">{product.regular_price}</p>
+          <p className="product__price">{product.actual_price}</p>
           <p className="product__payment">em até {product.installments}</p>
         </div>
 
@@ -82,7 +97,13 @@ const Product = (props) => {
           </div>
         </div>
 
-        <button type="button" className="product__button">Adicionar à Sacola</button>
+        <button
+          type="button" 
+          className="product__button"
+          onClick={() => handleAddToCart(product, selectedSize)}
+        >
+          Adicionar à Sacola
+        </button>
       </div>
 
     </main>

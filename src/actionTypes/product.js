@@ -1,0 +1,2 @@
+export const GET_PRODUCT = 'GET_PRODUCT';
+export const SET_SELECTED_SIZE = 'SET_SELECTED_SIZE';

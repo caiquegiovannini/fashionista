@@ -90,6 +90,7 @@ const cartReducer = (state = cartInitialState, action) => {
 
     case REMOVE_ITEM: {
       let itemPrice = 0;
+      let subtotal = 0;
       const numberOfItemsRemoved = state.items.map(item => {
         if (item.id === payload) {
           return item.quantity;
@@ -104,11 +105,15 @@ const cartReducer = (state = cartInitialState, action) => {
         return '';
       })
       
+      if (state.items.length !== 1) {
+        subtotal = state.subtotal - itemPrice;
+      }
+
       return {
         ...state,
         items: state.items.filter(item => item.id !== payload),
         itemsInCart: state.itemsInCart - numberOfItemsRemoved[0],
-        subtotal: state.subtotal - itemPrice,
+        subtotal: subtotal,
       }
     }
 

@@ -35,7 +35,7 @@ const Cart = ( { close } ) => {
         <p className="cart__subtotal">
           Subtotal - R$
           <span className="cart__subtotal__value"> 
-            {subtotal}
+            {` ${subtotal.toFixed(2).replace('.', ',')}`}
           </span>
         </p>
       </div>

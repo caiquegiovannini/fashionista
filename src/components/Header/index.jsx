@@ -9,7 +9,7 @@ import Search from '../Search';
 import './styles.css';
 
 const Header = () => {
-  const { items, itemsInCart } = useSelector(state => state.cart);
+  const { itemsInCart } = useSelector(state => state.cart);
 
   const [cartActive, setCartActive] = useState(false);
   const [searchActive, setSearchActive] = useState(false);

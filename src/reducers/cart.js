@@ -20,6 +20,7 @@ const cartReducer = (state = cartInitialState, action) => {
         installments: payload.installments,
         quantity: payload.quantity,
       };
+      const subtotalValue = payload.actual_price + Number(state.subtotal);
 
       return {
         ...state,
@@ -28,58 +29,86 @@ const cartReducer = (state = cartInitialState, action) => {
           newItem,
         ],
         itemsInCart: state.itemsInCart + 1,
-        subtotal: state.subtotal,
+        subtotal: subtotalValue,
       }
     }
 
     case INCREASE_ITEM: {
+      let itemPrice = 0;
+      const newItems = state.items.map(item => {
+        itemPrice = item.actual_price;
+        if (item.id === payload) {
+          return {...item, quantity: item.quantity + 1};
+        }
+        return item;
+      })
+      const subtotalValue = state.subtotal += itemPrice;
+
       return {
         ...state,
-        items: state.items.map(item => {
-          if (item.id === payload) {
-            return {...item, quantity: item.quantity + 1};
-
-          }
-          return item;
-
-        }),
+        items: newItems,
         itemsInCart: state.itemsInCart + 1,
+        subtotal: subtotalValue,
       }
     }
 
     case DECREASE_ITEM: {
+      let itemPrice = 0;
       let newItens = [];
 
       if (state.itemsInCart !== 1) {  // Se houver mais de um item no carrinho
 
         if (state.items.length === 1) {   // Se os itens no carrinho forem duplicados
-          newItens = state.items.map(item => ({...item, quantity: item.quantity - 1}))
+          newItens = state.items.map(item => {
+            itemPrice = item.actual_price;
+            return {...item, quantity: item.quantity - 1}
+          })
         }
 
         if (state.items.length !== 1) {   // Se os itens no carrinho não forem duplicados
-          newItens = state.items.filter(item => item.id !== payload)
+          newItens = state.items.filter(item => item.id !== payload);
+
+          state.items.map(item => {
+            if (item.id === payload) {
+              itemPrice = item.actual_price;
+            }
+            return '';
+          });
         }
 
+      } else {
+        itemPrice = state.subtotal;
       }
 
       return {
         ...state,
         items: newItens,
         itemsInCart: state.itemsInCart - 1,
+        subtotal: state.subtotal - itemPrice,
       }
     }
 
     case REMOVE_ITEM: {
+      let itemPrice = 0;
       const numberOfItemsRemoved = state.items.map(item => {
         if (item.id === payload) {
           return item.quantity;
         }
+        return '';
       });
+
+      state.items.map(item => {
+        if (item.id === payload) {
+          itemPrice = item.actual_price;
+        }
+        return '';
+      })
       
       return {
         ...state,
         items: state.items.filter(item => item.id !== payload),
         itemsInCart: state.itemsInCart - numberOfItemsRemoved[0],
+        subtotal: state.subtotal - itemPrice,
       }
     }
 

@@ -63,7 +63,7 @@ const Item = ({ item }) => {
       </section>
 
       <section className="item__right">
-        <p className="item__price">{item.actual_price}</p>
+        <p className="item__price">R$ {item.actual_price.toFixed(2).replace('.', ',')}</p>
         <p className="item__payment">{item.installments}</p>
       </section>
     </div>

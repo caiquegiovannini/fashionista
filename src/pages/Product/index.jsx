@@ -26,7 +26,7 @@ const Product = (props) => {
         dispatch(getProduct(selectedProduct));
         dispatch(resetSelectedSize());
       })
-  }, []);
+  }, [dispatch, props.match.params.name]);
 
   const sizesAvailable = product.sizes && product.sizes.map(size => {
         if (size.available) {
@@ -34,12 +34,13 @@ const Product = (props) => {
             <div 
               key={size.sku}
               className={`product__sizes__selection ${selectedSize.sku === size.sku ? 'product__sizes__selection--active' : ''}`} 
-              onClick={() => {handleSelectSize(size); console.log(items)}}
+              onClick={() => {handleSelectSize(size)}}
             >
               {size.size}
             </div>
           );
-        }
+        };
+        return '';
       })
 
   const handleSelectSize = (size) => {  
@@ -52,14 +53,12 @@ const Product = (props) => {
 
   const handleAddToCart = (product, size) => {
     const newProduct = product;
-
-    if (items[0] !== undefined) {
-      const repeatedItem = items.find(item => item.id === size.sku);
+    const repeatedItem = items.find(item => item.id === size.sku);
+    const itemPrice = Number(product.actual_price.replace('R$ ', '').replace(',', '.'));
       
-      if (repeatedItem) {
-        dispatch(increaseItem(size.sku))
-        return;
-      }
+    if (repeatedItem) {
+      dispatch(increaseItem(size.sku))
+      return;
     }
 
     if (!size.sku) {
@@ -68,7 +67,8 @@ const Product = (props) => {
     }
 
     const productInfo = {
-      ...newProduct, 
+      ...newProduct,
+      actual_price: itemPrice,
       size: size.size,
       id: size.sku,
     };

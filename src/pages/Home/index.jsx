@@ -14,7 +14,7 @@ const Home = () => {
     fetch(baseURL)
       .then(res => res.json())
       .then(data => dispatch(getProducts(data)))
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="home">

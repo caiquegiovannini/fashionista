@@ -30,3 +30,9 @@ button {
 .container {
   padding: 0 1rem;
 }
+
+.no-item {
+  color: #a7a7a7;
+  font-size: 1.2rem;
+  margin: auto;
+}

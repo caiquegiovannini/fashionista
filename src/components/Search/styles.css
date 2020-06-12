@@ -58,12 +58,6 @@
   overflow-y: auto;
 }
 
-.search__no-item {
-  color: #a7a7a7;
-  font-size: 1.2rem;
-  margin: auto;
-}
-
 @media (min-width: 1279px) {
   .search__header,
   .search__results {

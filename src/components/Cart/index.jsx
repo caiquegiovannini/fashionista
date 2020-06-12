@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { FiArrowLeft } from 'react-icons/fi';
 
 import Item from '../Item';
@@ -6,6 +7,8 @@ import Item from '../Item';
 import './styles.css';
 
 const Cart = ( { close } ) => {
+  const { items, itemsInCart, subtotal } = useSelector(state => state.cart);
+
   return (
     <section className="cart">
       <header className="cart__header">
@@ -15,25 +18,24 @@ const Cart = ( { close } ) => {
         <p className="cart__qunatity">
           Sacola (
           <span className="quantity__number">
-            1
+            {itemsInCart}
           </span>
           )
         </p>
       </header>
     
       <main className="cart__content">
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
+        {itemsInCart > 0 
+          ? items.map(item => <Item key={item.id} item={item} />)
+          : <p className="no-item">Sua sacola está vazia :/</p>
+        }
       </main>
 
       <div className="cart__footer">
         <p className="cart__subtotal">
           Subtotal - R$
-          <span className="cart__subtotal__value"> 329,80
+          <span className="cart__subtotal__value"> 
+            {` ${subtotal.toFixed(2).replace('.', ',')}`}
           </span>
         </p>
       </div>

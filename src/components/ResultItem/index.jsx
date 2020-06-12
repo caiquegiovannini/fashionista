@@ -1,26 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { formatNameToParamUrl } from '../../services/utils';
 
 import './styles.css';
 
-const ResultItem = () => {
+const ResultItem = ({ item }) => {
+  const param = formatNameToParamUrl(item.name);
 
   return (
-    <Link to="/products">
+    <Link to={`/products/${param}`}>
       <div className="item">
         <section className="item__left">
           <figure className="item__image">
-            <img src="https://viniciusvinna.netlify.app/assets/api-fashionista/20002605_615_catalog_1.jpg" alt=""/>
+            <img src={item.image} alt={item.name}/>
           </figure>
         </section>
 
         <section className="item__center">
-          <h2 className="item__name">Vestido Transpasse Bow</h2>
+          <h2 className="item__name">{item.name}</h2>
         </section>
 
         <section className="item__right">
-          <p className="item__price">R$ 189,90</p>
-          <p className="item__payment">3x R$ 63,30</p>
+          <p className="item__price">{item.actual_price}</p>
+          <p className="item__payment">{item.installments}</p>
         </section>
       </div>
     </Link>

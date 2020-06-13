@@ -1,7 +1,24 @@
+.panel {
+  padding-top: 6rem;
+  padding-bottom: 2rem;
+  width: 100%;
+  height: 100vh;
+}
+
+.panel__image {
+  width: 100%;
+  height: 100%;
+}
+
+.panel__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .catalog {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  padding-top: 6rem;
   max-width: 1290px;
   margin: 0 auto;
 }

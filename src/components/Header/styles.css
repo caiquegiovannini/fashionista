@@ -21,6 +21,7 @@
 
 .header__logo {
   font-family: 'Source Sans Pro', sans-serif;
+  text-shadow: -1px -1px #ff0000;
   letter-spacing: 1px;
 }
 

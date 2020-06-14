@@ -1,10 +1,10 @@
 import { ADD_ITEM, INCREASE_ITEM, DECREASE_ITEM,REMOVE_ITEM } from '../actionTypes/cart';
 
-const cartInitialState = {
+const cartInitialState = JSON.parse(localStorage.getItem('cart')) || {
   items: [],
   itemsInCart: 0,
   subtotal: 0,
-}
+};
 
 const cartReducer = (state = cartInitialState, action) => {
   const { type, payload } = action;
@@ -22,14 +22,20 @@ const cartReducer = (state = cartInitialState, action) => {
       };
       const subtotalValue = payload.actual_price + Number(state.subtotal);
 
-      return {
-        ...state,
+      const cart = {
         items: [
           ...state.items,
           newItem,
         ],
         itemsInCart: state.itemsInCart + 1,
         subtotal: subtotalValue,
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      return {
+        ...state,
+        ...cart,
       }
     }
 
@@ -44,11 +50,17 @@ const cartReducer = (state = cartInitialState, action) => {
       })
       const subtotalValue = state.subtotal += itemPrice;
 
-      return {
-        ...state,
+      const cart = {
         items: newItems,
         itemsInCart: state.itemsInCart + 1,
         subtotal: subtotalValue,
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      return {
+        ...state,
+        ...cart,
       }
     }
 
@@ -80,11 +92,17 @@ const cartReducer = (state = cartInitialState, action) => {
         itemPrice = state.subtotal;
       }
 
-      return {
-        ...state,
+      const cart = {
         items: newItens,
         itemsInCart: state.itemsInCart - 1,
         subtotal: state.subtotal - itemPrice,
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      return {
+        ...state,
+        ...cart,
       }
     }
 
@@ -109,11 +127,17 @@ const cartReducer = (state = cartInitialState, action) => {
         subtotal = state.subtotal - itemPrice;
       }
 
-      return {
-        ...state,
+      const cart = {
         items: state.items.filter(item => item.id !== payload),
         itemsInCart: state.itemsInCart - numberOfItemsRemoved[0],
         subtotal: subtotal,
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      return {
+        ...state,
+        ...cart,
       }
     }
 

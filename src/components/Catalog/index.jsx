@@ -14,12 +14,12 @@ const Catalog = () => {
     <div className="container">
       <header className="panel">
         <figure className="panel__image">
-          <img src={Image} alt="Imagem do painel"/>
+          <img src={Image} alt="Imagem do painel" />
         </figure>
       </header>
 
       <main className="catalog">
-        {products &&
+        {products.length !== 0 &&
           products.map(product => (<Card key={product.sizes[0].sku} product={product} />))
         }
       </main>

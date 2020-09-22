@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { baseURL } from '../../services/api';
+import { fakeApi } from '../../fake_api';
 import { formatParamUrlToName } from '../../services/utils';
 import { getProduct, setSelectedSize, resetSelectedSize } from '../../actions/product';
 import { increaseItem } from '../../actions/cart';
@@ -16,34 +17,41 @@ const Product = (props) => {
   useEffect(() => {
     const param = props.match.params.name;
 
-    fetch(baseURL)
-      .then(res => res.json())
-      .then(data => {
-        const selectedProduct = data.find(item => 
-          item.name === formatParamUrlToName(param)
-        );
+    const selectedProduct = fakeApi.find(item =>
+      item.name === formatParamUrlToName(param)
+    );
 
-        dispatch(getProduct(selectedProduct));
-        dispatch(resetSelectedSize());
-      })
+    dispatch(getProduct(selectedProduct));
+    dispatch(resetSelectedSize());
+
+    // fetch(baseURL)
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     const selectedProduct = data.find(item => 
+    //       item.name === formatParamUrlToName(param)
+    //     );
+
+    //     dispatch(getProduct(selectedProduct));
+    //     dispatch(resetSelectedSize());
+    //   })
   }, [dispatch, props.match.params.name]);
 
   const sizesAvailable = product.sizes && product.sizes.map(size => {
-        if (size.available) {
-          return (
-            <div 
-              key={size.sku}
-              className={`product__sizes__selection ${selectedSize.sku === size.sku ? 'product__sizes__selection--active' : ''}`} 
-              onClick={() => {handleSelectSize(size)}}
-            >
-              {size.size}
-            </div>
-          );
-        };
-        return '';
-      })
+    if (size.available) {
+      return (
+        <div
+          key={size.sku}
+          className={`product__sizes__selection ${selectedSize.sku === size.sku ? 'product__sizes__selection--active' : ''}`}
+          onClick={() => { handleSelectSize(size) }}
+        >
+          {size.size}
+        </div>
+      );
+    };
+    return '';
+  })
 
-  const handleSelectSize = (size) => {  
+  const handleSelectSize = (size) => {
     if (selectedSize.sku !== size.sku) {
       dispatch(setSelectedSize(size));
     }
@@ -55,7 +63,7 @@ const Product = (props) => {
     const newProduct = product;
     const repeatedItem = items.find(item => item.id === size.sku);
     const itemPrice = Number(product.actual_price.replace('R$ ', '').replace(',', '.'));
-      
+
     if (repeatedItem) {
       dispatch(increaseItem(size.sku))
       return;
@@ -80,11 +88,11 @@ const Product = (props) => {
     <main className="product">
 
       <figure className="product__image">
-        <img 
+        <img
           src={product.image
             ? product.image
             : 'https://via.placeholder.com/470x594/FFFFFF/?text=Imagem+Indisponível'
-          } 
+          }
           alt={product.name}
         />
         {product.discount_percentage &&
@@ -99,8 +107,8 @@ const Product = (props) => {
         <h2 className="product__name">{product.name}</h2>
         <div className="product__prices">
           {product.actual_price !== product.regular_price &&
-            <p className="product__old-price">{product.regular_price}</p> 
-          } 
+            <p className="product__old-price">{product.regular_price}</p>
+          }
           <p className="product__price">{product.actual_price}</p>
           <p className="product__payment">em até {product.installments}</p>
         </div>
@@ -113,7 +121,7 @@ const Product = (props) => {
         </div>
 
         <button
-          type="button" 
+          type="button"
           className="product__button"
           onClick={() => handleAddToCart(product, selectedSize)}
         >

@@ -13,7 +13,7 @@ const productsReducer = (state = productsInitialState, action) => {
         ...state,
         products: payload,
       };
-  
+
     default:
       return state;
   }

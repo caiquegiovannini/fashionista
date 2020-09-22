@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { baseURL } from '../../services/api';
 import { getProducts } from '../../actions/products';
+import { fakeApi } from '../../fake_api';
 
 import Catalog from '../../components/Catalog';
 
@@ -11,9 +12,10 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch(baseURL)
-      .then(res => res.json())
-      .then(data => dispatch(getProducts(data)))
+    // fetch(baseURL)
+    //   .then(res => res.json())
+    //   .then(data => dispatch(getProducts(data)))
+    dispatch(getProducts(fakeApi))
   }, [dispatch]);
 
   return (

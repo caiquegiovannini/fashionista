@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { baseURL } from '../../services/api';
 import { getProducts } from '../../actions/products';
 import { fakeApi } from '../../fake_api';
 

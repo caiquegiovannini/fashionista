@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { baseURL } from '../../services/api';
 import { fakeApi } from '../../fake_api';
 import { formatParamUrlToName } from '../../services/utils';
 import { getProduct, setSelectedSize, resetSelectedSize } from '../../actions/product';
